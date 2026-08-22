@@ -219,4 +219,5 @@ Resources:
           TargetGroupArn: !Ref ELBTargetGroup
 
       Port: 80
-      Protocol: HTTP                                           
+      Protocol: HTTP 
+     # PR作成用修正 
