@@ -161,7 +161,7 @@ Resources:
       DBSubnetGroupDescription: RDS Subnet Group
 
       SubnetIds:
-     　 - !Ref PrivateSubnetAZ1a
+        - !Ref PrivateSubnetAZ1a
      　 - !Ref PrivateSubnetAZ1c  
 
   RDS:
