@@ -162,8 +162,8 @@ Resources:
 
       SubnetIds:
         - !Ref PrivateSubnetAZ1a
-     　 - !Ref PrivateSubnetAZ1c  
-
+        - !Ref PrivateSubnetAZ1c
+        
   RDS:
     Type: AWS::RDS::DBInstance
     Properties:
