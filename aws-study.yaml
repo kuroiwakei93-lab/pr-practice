@@ -36,7 +36,7 @@ Resources:
         - Key: Name
           Value: SubnetAZ1c
    
-    PrivateSubnetAZ1a:
+  PrivateSubnetAZ1a:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref MyVPC
@@ -161,8 +161,8 @@ Resources:
       DBSubnetGroupDescription: RDS Subnet Group
 
       SubnetIds:
-      - !Ref PrivateSubnetAZ1a
-      - !Ref PrivateSubnetAZ1c  
+     　 - !Ref PrivateSubnetAZ1a
+     　 - !Ref PrivateSubnetAZ1c  
 
   RDS:
     Type: AWS::RDS::DBInstance
