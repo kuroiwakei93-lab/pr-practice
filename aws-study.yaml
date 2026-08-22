@@ -189,18 +189,19 @@ Resources:
     Properties:
       Name: my-target-group
 
-      Port: 80
+      Port: 8080
       Protocol: HTTP
 
       VpcId: !Ref MyVPC
 
       Targets:
         - Id: !Ref MyEC2
-          Port: 80
+          Port: 8080
 
       HealthCheckEnabled: true
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
+      HealthCheckPort: "8080"
 
       Matcher:
         HttpCode: 200
