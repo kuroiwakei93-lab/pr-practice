@@ -161,8 +161,8 @@ Resources:
       DBSubnetGroupDescription: RDS Subnet Group
 
       SubnetIds:
-        - !Ref SubnetAZ1a
-        - !Ref SubnetAZ1c
+      - !Ref PrivateSubnetAZ1a
+      - !Ref PrivateSubnetAZ1c  
 
   RDS:
     Type: AWS::RDS::DBInstance
