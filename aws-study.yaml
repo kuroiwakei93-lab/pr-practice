@@ -35,6 +35,28 @@ Resources:
       Tags:
         - Key: Name
           Value: SubnetAZ1c
+   
+  PrivateSubnetAZ1a:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.10.0/24
+      AvailabilityZone: ap-northeast-1a
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: PrivateSubnetAZ1a
+
+  PrivateSubnetAZ1c:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: ap-northeast-1c
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: PrivateSubnetAZ1c        
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -139,9 +161,9 @@ Resources:
       DBSubnetGroupDescription: RDS Subnet Group
 
       SubnetIds:
-        - !Ref SubnetAZ1a
-        - !Ref SubnetAZ1c
-
+        - !Ref PrivateSubnetAZ1a
+        - !Ref PrivateSubnetAZ1c
+        
   RDS:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -189,18 +211,19 @@ Resources:
     Properties:
       Name: my-target-group
 
-      Port: 80
+      Port: 8080
       Protocol: HTTP
 
       VpcId: !Ref MyVPC
 
       Targets:
         - Id: !Ref MyEC2
-          Port: 80
+          Port: 8080
 
       HealthCheckEnabled: true
       HealthCheckPath: /
       HealthCheckProtocol: HTTP
+      HealthCheckPort: "8080"
 
       Matcher:
         HttpCode: 200
@@ -219,5 +242,4 @@ Resources:
           TargetGroupArn: !Ref ELBTargetGroup
 
       Port: 80
-      Protocol: HTTP 
-     # PR作成用修正 
+      Protocol: HTTP                                           
