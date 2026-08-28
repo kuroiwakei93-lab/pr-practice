@@ -2,6 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 
 Description: Create VPC
 
+Parameters:
+  DBMasterPassword:
+    Type: String
+    NoEcho: true
+    Description: Master password for RDS
+
 Resources:
 
   MyVPC:
@@ -35,7 +41,7 @@ Resources:
       Tags:
         - Key: Name
           Value: SubnetAZ1c
-   
+
   PrivateSubnetAZ1a:
     Type: AWS::EC2::Subnet
     Properties:
@@ -56,7 +62,7 @@ Resources:
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
-          Value: PrivateSubnetAZ1c        
+          Value: PrivateSubnetAZ1c
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -112,6 +118,23 @@ Resources:
           CidrIp: 106.167.7.66/32
 
         - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+
+        
+      Tags:
+        - Key: Name
+          Value: MySecurityGroup
+
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group for ALB
+      VpcId: !Ref MyVPC
+
+      SecurityGroupIngress:
+        - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
@@ -123,7 +146,7 @@ Resources:
 
       Tags:
         - Key: Name
-          Value: MySecurityGroup
+          Value: MyALBSecurityGroup          
 
   MyEC2:
     Type: AWS::EC2::Instance
@@ -163,7 +186,7 @@ Resources:
       SubnetIds:
         - !Ref PrivateSubnetAZ1a
         - !Ref PrivateSubnetAZ1c
-        
+
   RDS:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -177,7 +200,7 @@ Resources:
       AllocatedStorage: 20
 
       MasterUsername: admin
-      MasterUserPassword: Password123!
+      MasterUserPassword: !Ref DBMasterPassword
 
       DBName: sampledb
 
@@ -196,7 +219,7 @@ Resources:
       Name: my-elb
 
       SecurityGroups:
-        - !Ref SecurityGroup
+        - !Ref ALBSecurityGroup  
 
       Subnets:
         - !Ref SubnetAZ1a
